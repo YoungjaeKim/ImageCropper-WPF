@@ -202,7 +202,7 @@ namespace ImageCropper
             //svForImg.Width = selectCanvForImg.Width;
             //svForImg.Height = selectCanvForImg.Height;
             svForImg.Content = selectCanvForImg;
-            createSelectionCanvasMenu();
+            //createSelectionCanvasMenu(); // NOTE: Youngjae (2017-08-11 17:32:19): crop zoomed image gives bad image result. So remove this function.
         }
 
         /// <summary>
