@@ -1,0 +1,156 @@
+﻿<UserControl
+    x:Class="ImageCropper.UcImageCropper"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid x:Name="gridMain">
+        <Grid.Resources>
+            <ResourceDictionary>
+
+                <Style x:Key="defaultCropperStyle" TargetType="{x:Type Rectangle}">
+                    <Setter Property="Stroke" Value="LightGray" />
+                    <Setter Property="Fill" Value="Yellow" />
+                    <Setter Property="Opacity" Value="0.2" />
+                </Style>
+
+                <ControlTemplate x:Key="OrangeButtons" TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border
+                            x:Name="border"
+                            Width="Auto"
+                            Height="Auto"
+                            Background="White"
+                            BorderBrush="#FFFFC934"
+                            BorderThickness="2" />
+                        <ContentControl
+                            Width="Auto"
+                            Height="Auto"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            FontSize="15" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="Red" />
+                            <Setter TargetName="border" Property="Background" Value="#FFFFC934" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+                <!--<ResourceDictionary.MergedDictionaries>
+          <ResourceDictionary Source="Resources\AppStyles.xaml"/>
+        </ResourceDictionary.MergedDictionaries>-->
+            </ResourceDictionary>
+
+        </Grid.Resources>
+
+        <Border Margin="0" Background="White">
+            <ScrollViewer
+                x:Name="svForImg"
+                CanContentScroll="True"
+                HorizontalScrollBarVisibility="Visible"
+                VerticalScrollBarVisibility="Visible"
+                Visibility="Visible" />
+        </Border>
+        <Grid
+            x:Name="grdCroppedImage"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="Hidden">
+            <Grid.BitmapEffect>
+                <DropShadowBitmapEffect
+                    Direction="320"
+                    Opacity="0.7"
+                    ShadowDepth="10"
+                    Softness="1"
+                    Color="White" />
+            </Grid.BitmapEffect>
+            <Border
+                Width="Auto"
+                Height="Auto"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="White"
+                BorderBrush="Orange"
+                BorderThickness="8,8,8,8">
+                <DockPanel LastChildFill="True">
+                    <StackPanel
+                        Height="Auto"
+                        Margin="0,-1,0,0"
+                        VerticalAlignment="Top"
+                        Background="Orange"
+                        DockPanel.Dock="Top"
+                        Orientation="Horizontal">
+                        <Label
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="2,2,2,2"
+                            Content="Cropped Image Result"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Foreground="White" />
+                        <Label
+                            x:Name="lblExit"
+                            Margin="60,-15,2,2"
+                            Content="[x]"
+                            FontSize="40"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            MouseDown="lblExit_MouseDown" />
+                    </StackPanel>
+                    <DockPanel
+                        Width="Auto"
+                        Height="Auto"
+                        LastChildFill="True">
+                        <DockPanel
+                            Width="Auto"
+                            Height="200"
+                            VerticalAlignment="Top"
+                            DockPanel.Dock="Top"
+                            LastChildFill="True">
+                            <Border
+                                Width="Auto"
+                                Height="150"
+                                Margin="20,20,20,20"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Background="{x:Null}"
+                                BorderBrush="#FFFFFFFF"
+                                BorderThickness="2,2,2,2"
+                                DockPanel.Dock="Top">
+                                <Image
+                                    x:Name="popUpImage"
+                                    Width="Auto"
+                                    Height="Auto" />
+                            </Border>
+                        </DockPanel>
+                        <StackPanel
+                            Width="Auto"
+                            Height="46"
+                            VerticalAlignment="Bottom"
+                            DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="btnConfirm"
+                                Width="70"
+                                Height="30"
+                                Margin="60,0,0,0"
+                                Click="btnConfirm_Click"
+                                Content="Confirm"
+                                Template="{StaticResource OrangeButtons}" />
+                            <Button
+                                x:Name="btnCancel"
+                                Width="67"
+                                Height="30"
+                                Margin="15,0,0,0"
+                                HorizontalAlignment="Left"
+                                Click="btnCancel_Click"
+                                Content="Cancel"
+                                Template="{StaticResource OrangeButtons}" />
+                        </StackPanel>
+                    </DockPanel>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

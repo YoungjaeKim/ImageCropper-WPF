@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="ImageCropper.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ImageCropper;assembly="
+    Title="ImageCropper"
+    Width="600"
+    Height="600"
+    Background="Gainsboro"
+    Closed="Window1_Closed"
+    Icon="Resources/Icon1.ico"
+    SizeChanged="Window1_SizeChanged"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.Resources />
+
+    <Grid x:Name="dp">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Background="Orange" Orientation="Horizontal">
+            <Image
+                x:Name="leftImage"
+                Width="180"
+                Height="42"
+                MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                Source="Resources/MagGlass.png" />
+            <Image
+                x:Name="rightImage"
+                Width="280"
+                Height="65"
+                Source="Resources/About.png" />
+        </StackPanel>
+        <local:UcImageCropper
+            x:Name="UcImageCropper"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+    </Grid>
+</Window>
