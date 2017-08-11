@@ -202,7 +202,7 @@ namespace ImageCropper
             //svForImg.Width = selectCanvForImg.Width;
             //svForImg.Height = selectCanvForImg.Height;
             svForImg.Content = selectCanvForImg;
-            //createSelectionCanvasMenu(); // NOTE: Youngjae (2017-08-11 17:32:19): crop zoomed image gives bad image result. So remove this function.
+            createSelectionCanvasMenu();
         }
 
         /// <summary>
@@ -211,17 +211,18 @@ namespace ImageCropper
         private void createSelectionCanvasMenu()
         {
             cmSelectionCanvas = new ContextMenu();
-            MenuItem miZoom25 = new MenuItem();
-            miZoom25.Header = "Zoom 25%";
-            miZoom25.Tag = "0.25";
-            MenuItem miZoom50 = new MenuItem();
-            miZoom50.Header = "Zoom 50%";
-            miZoom50.Tag = "0.5";
+            // NOTE: Youngjae (2017-08-11 17:32:19): crop zoomed image gives bad image result. So remove this function.
+            //MenuItem miZoom25 = new MenuItem();
+            //miZoom25.Header = "Zoom 25%";
+            //miZoom25.Tag = "0.25";
+            //MenuItem miZoom50 = new MenuItem();
+            //miZoom50.Header = "Zoom 50%";
+            //miZoom50.Tag = "0.5";
             MenuItem miZoom100 = new MenuItem();
             miZoom100.Header = "Zoom 100%";
             miZoom100.Tag = "1.0";
-            cmSelectionCanvas.Items.Add(miZoom25);
-            cmSelectionCanvas.Items.Add(miZoom50);
+            //cmSelectionCanvas.Items.Add(miZoom25);
+            //cmSelectionCanvas.Items.Add(miZoom50);
             cmSelectionCanvas.Items.Add(miZoom100);
             cmSelectionCanvasRoutedEventHandler = new RoutedEventHandler(MenuSelectionCanvasOnClick);
             cmSelectionCanvas.AddHandler(MenuItem.ClickEvent, cmSelectionCanvasRoutedEventHandler);
