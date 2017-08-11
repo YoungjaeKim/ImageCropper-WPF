@@ -20,14 +20,11 @@ namespace ImageCropper
     /// </summary>
     public partial class Window1 : System.Windows.Window
     {
-
-        #region Ctor
         public Window1()
         {
             InitializeComponent();
             rightImage.Margin = new Thickness(this.Width - (rightImage.Width + leftImage.Width + 30), 0, 0, 0);
         }
-        #endregion
 
         #region Private methods
         /// <summary>

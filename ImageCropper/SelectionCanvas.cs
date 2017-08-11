@@ -38,7 +38,6 @@ namespace ImageCropper
         }
         #endregion
 
-        #region Ctor
         /// <summary>
         /// Constructs a new SelectionCanvas, and registers the 
         /// CropImage event
@@ -48,7 +47,6 @@ namespace ImageCropper
             this.CropImageEvent = EventManager.RegisterRoutedEvent("CropImage",
                 RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SelectionCanvas));
         }
-        #endregion
 
         #region Public Properties
         public Style  CropperStyle

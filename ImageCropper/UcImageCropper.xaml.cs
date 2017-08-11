@@ -81,28 +81,28 @@ namespace ImageCropper
             if (s != null)
             {
                 UcImageCropper uc = (UcImageCropper)depObj;
-                uc.selectCanvForImg.CropperStyle = s;
+                uc._selectCanvForImg.CropperStyle = s;
             }
         }
         #endregion
 
         #region Instance fields
         private string ImgUrl = "";
-        private BitmapImage bmpSource = null;
-        private SelectionCanvas selectCanvForImg = null;
-        private DragCanvas dragCanvasForImg = null;
-        private System.Windows.Controls.Image img = null;
-        private Shape rubberBand;
-        private double rubberBandLeft;
-        private double rubberBandTop;
-        private string tempFileName;
-        private ContextMenu cmSelectionCanvas;
-        private RoutedEventHandler cmSelectionCanvasRoutedEventHandler;
-        private ContextMenu cmDragCanvas;
-        private RoutedEventHandler cmDragCanvasRoutedEventHandler;
-        private string fixedTempName = "temp";
-        private long fixedTempIdx = 1;
-        private double zoomFactor = 1.0;
+        private BitmapImage _bmpSource = null;
+        private SelectionCanvas _selectCanvForImg = null;
+        private DragCanvas _dragCanvasForImg = null;
+        private System.Windows.Controls.Image _img = null;
+        private Shape _rubberBand;
+        private double _rubberBandLeft;
+        private double _rubberBandTop;
+        private string _tempFileName;
+        private ContextMenu _cmSelectionCanvas;
+        private RoutedEventHandler _cmSelectionCanvasRoutedEventHandler;
+        private ContextMenu _cmDragCanvas;
+        private RoutedEventHandler _cmDragCanvasRoutedEventHandler;
+        private string _fixedTempName = "temp";
+        private long _fixedTempIdx = 1;
+        private double _zoomFactor = 1.0;
         #endregion
 
         #region Ctor
@@ -111,9 +111,9 @@ namespace ImageCropper
             InitializeComponent();
 
             //this.Unloaded += new RoutedEventHandler(UcImageCropper_Unloaded);
-            selectCanvForImg = new SelectionCanvas();
-            selectCanvForImg.CropImage += new RoutedEventHandler(selectCanvForImg_CropImage);
-            dragCanvasForImg = new DragCanvas();
+            _selectCanvForImg = new SelectionCanvas();
+            _selectCanvForImg.CropImage += new RoutedEventHandler(selectCanvForImg_CropImage);
+            _dragCanvasForImg = new DragCanvas();
         }
 
 
@@ -125,7 +125,7 @@ namespace ImageCropper
             get { return this.ImgUrl; }
             set
             {
-                zoomFactor = 1.0;
+                _zoomFactor = 1.0;
                 ImgUrl = value;
                 grdCroppedImage.Visibility = Visibility.Hidden;
                 createImageSource();
@@ -183,7 +183,7 @@ namespace ImageCropper
         /// </summary>
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            ImageUrl = tempFileName;
+            ImageUrl = _tempFileName;
             grdCroppedImage.Visibility = Visibility.Hidden;
         }
 
@@ -194,14 +194,14 @@ namespace ImageCropper
         private void createSelectionCanvas()
         {
             createImageSource();
-            selectCanvForImg.Width = bmpSource.Width * zoomFactor;
-            selectCanvForImg.Height = bmpSource.Height * zoomFactor;
-            selectCanvForImg.Children.Clear();
-            selectCanvForImg.rubberBand = null;
-            selectCanvForImg.Children.Add(img);
+            _selectCanvForImg.Width = _bmpSource.Width * _zoomFactor;
+            _selectCanvForImg.Height = _bmpSource.Height * _zoomFactor;
+            _selectCanvForImg.Children.Clear();
+            _selectCanvForImg.rubberBand = null;
+            _selectCanvForImg.Children.Add(_img);
             //svForImg.Width = selectCanvForImg.Width;
             //svForImg.Height = selectCanvForImg.Height;
-            svForImg.Content = selectCanvForImg;
+            svForImg.Content = _selectCanvForImg;
             createSelectionCanvasMenu();
         }
 
@@ -210,7 +210,7 @@ namespace ImageCropper
         /// </summary>
         private void createSelectionCanvasMenu()
         {
-            cmSelectionCanvas = new ContextMenu();
+            _cmSelectionCanvas = new ContextMenu();
             // NOTE: Youngjae (2017-08-11 17:32:19): crop zoomed image gives bad image result. So remove this function.
             //MenuItem miZoom25 = new MenuItem();
             //miZoom25.Header = "Zoom 25%";
@@ -223,10 +223,10 @@ namespace ImageCropper
             miZoom100.Tag = "1.0";
             //cmSelectionCanvas.Items.Add(miZoom25);
             //cmSelectionCanvas.Items.Add(miZoom50);
-            cmSelectionCanvas.Items.Add(miZoom100);
-            cmSelectionCanvasRoutedEventHandler = new RoutedEventHandler(MenuSelectionCanvasOnClick);
-            cmSelectionCanvas.AddHandler(MenuItem.ClickEvent, cmSelectionCanvasRoutedEventHandler);
-            selectCanvForImg.ContextMenu = cmSelectionCanvas;
+            _cmSelectionCanvas.Items.Add(miZoom100);
+            _cmSelectionCanvasRoutedEventHandler = new RoutedEventHandler(MenuSelectionCanvasOnClick);
+            _cmSelectionCanvas.AddHandler(MenuItem.ClickEvent, _cmSelectionCanvasRoutedEventHandler);
+            _selectCanvForImg.ContextMenu = _cmSelectionCanvas;
         }
 
         /// <summary>
@@ -236,10 +236,10 @@ namespace ImageCropper
         private void MenuSelectionCanvasOnClick(object sender, RoutedEventArgs args)
         {
             MenuItem item = args.Source as MenuItem;
-            zoomFactor = double.Parse(item.Tag.ToString());
-            img.RenderTransform = new ScaleTransform(zoomFactor, zoomFactor, 0.5, 0.5);
-            selectCanvForImg.Width = bmpSource.Width * zoomFactor;
-            selectCanvForImg.Height = bmpSource.Height * zoomFactor;
+            _zoomFactor = double.Parse(item.Tag.ToString());
+            _img.RenderTransform = new ScaleTransform(_zoomFactor, _zoomFactor, 0.5, 0.5);
+            _selectCanvForImg.Width = _bmpSource.Width * _zoomFactor;
+            _selectCanvForImg.Height = _bmpSource.Height * _zoomFactor;
             //svForImg.Width = selectCanvForImg.Width;
             //svForImg.Height = selectCanvForImg.Height;
 
@@ -250,11 +250,11 @@ namespace ImageCropper
         /// </summary>
         private void createImageSource()
         {
-            bmpSource = new BitmapImage(new Uri(ImgUrl));
-            img = new System.Windows.Controls.Image();
-            img.Source = bmpSource;
+            _bmpSource = new BitmapImage(new Uri(ImgUrl));
+            _img = new System.Windows.Controls.Image();
+            _img.Source = _bmpSource;
             //if there was a Zoom Factor applied
-            img.RenderTransform = new ScaleTransform(zoomFactor, zoomFactor, 0.5, 0.5);
+            _img.RenderTransform = new ScaleTransform(_zoomFactor, _zoomFactor, 0.5, 0.5);
         }
 
         /// <summary>
@@ -263,17 +263,17 @@ namespace ImageCropper
         /// </summary>
         private void createDragCanvas()
         {
-            dragCanvasForImg.Width = bmpSource.Width * zoomFactor;
-            dragCanvasForImg.Height = bmpSource.Height * zoomFactor;
+            _dragCanvasForImg.Width = _bmpSource.Width * _zoomFactor;
+            _dragCanvasForImg.Height = _bmpSource.Height * _zoomFactor;
             //svForImg.Width = dragCanvasForImg.Width;
             //svForImg.Height = dragCanvasForImg.Height;
             createImageSource();
             createDragCanvasMenu();
-            selectCanvForImg.Children.Remove(rubberBand);
-            dragCanvasForImg.Children.Clear();
-            dragCanvasForImg.Children.Add(img);
-            dragCanvasForImg.Children.Add(rubberBand);
-            svForImg.Content = dragCanvasForImg;
+            _selectCanvForImg.Children.Remove(_rubberBand);
+            _dragCanvasForImg.Children.Clear();
+            _dragCanvasForImg.Children.Add(_img);
+            _dragCanvasForImg.Children.Add(_rubberBand);
+            svForImg.Content = _dragCanvasForImg;
         }
 
         /// <summary>
@@ -281,19 +281,19 @@ namespace ImageCropper
         /// </summary>
         private void createDragCanvasMenu()
         {
-            cmSelectionCanvas.RemoveHandler(MenuItem.ClickEvent, cmSelectionCanvasRoutedEventHandler);
-            selectCanvForImg.ContextMenu = null;
-            cmSelectionCanvas = null;
-            cmDragCanvas = new ContextMenu();
+            _cmSelectionCanvas.RemoveHandler(MenuItem.ClickEvent, _cmSelectionCanvasRoutedEventHandler);
+            _selectCanvForImg.ContextMenu = null;
+            _cmSelectionCanvas = null;
+            _cmDragCanvas = new ContextMenu();
             MenuItem miSave = new MenuItem();
             miSave.Header = "Save";
             MenuItem miCancel = new MenuItem();
             miCancel.Header = "Cancel";
-            cmDragCanvas.Items.Add(miCancel);
-            cmDragCanvas.Items.Add(miSave);
-            cmDragCanvasRoutedEventHandler = new RoutedEventHandler(MenuDragCanvasOnClick);
-            cmDragCanvas.AddHandler(MenuItem.ClickEvent, cmDragCanvasRoutedEventHandler);
-            dragCanvasForImg.ContextMenu = cmDragCanvas;
+            _cmDragCanvas.Items.Add(miCancel);
+            _cmDragCanvas.Items.Add(miSave);
+            _cmDragCanvasRoutedEventHandler = new RoutedEventHandler(MenuDragCanvasOnClick);
+            _cmDragCanvas.AddHandler(MenuItem.ClickEvent, _cmDragCanvasRoutedEventHandler);
+            _dragCanvasForImg.ContextMenu = _cmDragCanvas;
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace ImageCropper
         /// </summary>
         private void selectCanvForImg_CropImage(object sender, RoutedEventArgs e)
         {
-            rubberBand = (Shape)selectCanvForImg.Children[1];
+            _rubberBand = (Shape)_selectCanvForImg.Children[1];
             createDragCanvas();
         }
 
@@ -351,23 +351,23 @@ namespace ImageCropper
 
             try
             {
-                rubberBandLeft = Canvas.GetLeft(rubberBand);
-                rubberBandTop = Canvas.GetTop(rubberBand);
+                _rubberBandLeft = Canvas.GetLeft(_rubberBand);
+                _rubberBandTop = Canvas.GetTop(_rubberBand);
                 //create a new .NET 2.0 bitmap (which allowing saving) based on the bound bitmap url
                 using (System.Drawing.Bitmap source = new System.Drawing.Bitmap(ImgUrl))
                 {
                     //create a new .NET 2.0 bitmap (which allowing saving) to store cropped image in, should be 
                     //same size as rubberBand element which is the size of the area of the original image we want to keep
-                    using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap((int)rubberBand.Width, (int)rubberBand.Height))
+                    using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap((int)_rubberBand.Width, (int)_rubberBand.Height))
                     {
                         //create a new destination rectange
                         System.Drawing.RectangleF recDest = new System.Drawing.RectangleF(0.0f, 0.0f, (float)bitmap.Width, (float)bitmap.Height);
                         //different resolution fix prior to cropping image
                         float hd = 1.0f / (bitmap.HorizontalResolution / source.HorizontalResolution);
                         float vd = 1.0f / (bitmap.VerticalResolution / source.VerticalResolution);
-                        float hScale = 1.0f / (float)zoomFactor;
-                        float vScale = 1.0f / (float)zoomFactor;
-                        System.Drawing.RectangleF recSrc = new System.Drawing.RectangleF((hd * (float)rubberBandLeft) * hScale, (vd * (float)rubberBandTop) * vScale, (hd * (float)rubberBand.Width) * hScale, (vd * (float)rubberBand.Height) * vScale);
+                        float hScale = 1.0f / (float)_zoomFactor;
+                        float vScale = 1.0f / (float)_zoomFactor;
+                        System.Drawing.RectangleF recSrc = new System.Drawing.RectangleF((hd * (float)_rubberBandLeft) * hScale, (vd * (float)_rubberBandTop) * vScale, (hd * (float)_rubberBand.Width) * hScale, (vd * (float)_rubberBand.Height) * vScale);
                         using (System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(bitmap))
                         {
                             gfx.DrawImage(source, recDest, recSrc, System.Drawing.GraphicsUnit.Pixel);
@@ -376,13 +376,13 @@ namespace ImageCropper
                         //This is is a hack that I had to put in, due to GDI+ holding on to previous 
                         //file handles used by the Bitmap.Save() method the last time this method was run.
                         //This is a well known issue see http://support.microsoft.com/?id=814675 for example
-                        tempFileName = System.IO.Path.GetTempPath();
-                        if (fixedTempIdx > 2)
-                            fixedTempIdx = 0;
+                        _tempFileName = System.IO.Path.GetTempPath();
+                        if (_fixedTempIdx > 2)
+                            _fixedTempIdx = 0;
                         else
-                            ++fixedTempIdx;
+                            ++_fixedTempIdx;
                         //do the clean
-                        CleanUp(tempFileName, fixedTempName, fixedTempIdx);
+                        CleanUp(_tempFileName, _fixedTempName, _fixedTempIdx);
                         //Due to the so problem above, which believe you me I have tried and tried to resolve
                         //I have tried the following to fix this, incase anyone wants to try it
                         //1. Tried reading the image as a strea of bytes into a new bitmap image
@@ -393,14 +393,14 @@ namespace ImageCropper
                         //None of these worked so I was forced into using a few temp files, and pointing the 
                         //cropped image to the last one, and makeing sure all others were deleted.
                         //Not ideal, so if anyone can fix it please this I would love to know. So let me know
-                        tempFileName = tempFileName + fixedTempName + fixedTempIdx.ToString() + ".jpg";
-                        bitmap.Save(tempFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        _tempFileName = _tempFileName + _fixedTempName + _fixedTempIdx.ToString() + ".jpg";
+                        bitmap.Save(_tempFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                         //rewire up context menu
-                        cmDragCanvas.RemoveHandler(MenuItem.ClickEvent, cmDragCanvasRoutedEventHandler);
-                        dragCanvasForImg.ContextMenu = null;
-                        cmDragCanvas = null;
+                        _cmDragCanvas.RemoveHandler(MenuItem.ClickEvent, _cmDragCanvasRoutedEventHandler);
+                        _dragCanvasForImg.ContextMenu = null;
+                        _cmDragCanvas = null;
                         //create popup BitmapImage
-                        BitmapImage bmpPopup = new BitmapImage(new Uri(tempFileName));
+                        BitmapImage bmpPopup = new BitmapImage(new Uri(_tempFileName));
                         popUpImage.Source = bmpPopup;
                         grdCroppedImage.Visibility = Visibility.Visible;
                     }
