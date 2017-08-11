@@ -102,7 +102,7 @@ namespace ImageCropper
         private RoutedEventHandler cmDragCanvasRoutedEventHandler;
         private string fixedTempName = "temp";
         private long fixedTempIdx = 1;
-        private double zoomFactor=1.0;
+        private double zoomFactor = 1.0;
         #endregion
 
         #region Ctor
@@ -162,7 +162,7 @@ namespace ImageCropper
                 {
                     filename = tempPath + fixedTempName + i.ToString() + ".jpg";
                     File.Delete(filename);
-			    }
+                }
             }
             catch (Exception)
             {
@@ -285,10 +285,10 @@ namespace ImageCropper
             selectCanvForImg.ContextMenu = null;
             cmSelectionCanvas = null;
             cmDragCanvas = new ContextMenu();
-            MenuItem miCancel = new MenuItem();
-            miCancel.Header = "Cancel";
             MenuItem miSave = new MenuItem();
             miSave.Header = "Save";
+            MenuItem miCancel = new MenuItem();
+            miCancel.Header = "Cancel";
             cmDragCanvas.Items.Add(miCancel);
             cmDragCanvas.Items.Add(miSave);
             cmDragCanvasRoutedEventHandler = new RoutedEventHandler(MenuDragCanvasOnClick);
@@ -346,8 +346,8 @@ namespace ImageCropper
         /// </summary>
         private void SaveCroppedImage()
         {
-            if (popUpImage.Source!=null)
-                popUpImage.Source = null; 
+            if (popUpImage.Source != null)
+                popUpImage.Source = null;
 
             try
             {
@@ -358,17 +358,17 @@ namespace ImageCropper
                 {
                     //create a new .NET 2.0 bitmap (which allowing saving) to store cropped image in, should be 
                     //same size as rubberBand element which is the size of the area of the original image we want to keep
-                    using (System.Drawing.Bitmap target = new System.Drawing.Bitmap((int)rubberBand.Width, (int)rubberBand.Height))
+                    using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap((int)rubberBand.Width, (int)rubberBand.Height))
                     {
                         //create a new destination rectange
-                        System.Drawing.RectangleF recDest = new System.Drawing.RectangleF(0.0f, 0.0f, (float)target.Width, (float)target.Height);
+                        System.Drawing.RectangleF recDest = new System.Drawing.RectangleF(0.0f, 0.0f, (float)bitmap.Width, (float)bitmap.Height);
                         //different resolution fix prior to cropping image
-                        float hd = 1.0f / (target.HorizontalResolution / source.HorizontalResolution);
-                        float vd = 1.0f / (target.VerticalResolution / source.VerticalResolution);
+                        float hd = 1.0f / (bitmap.HorizontalResolution / source.HorizontalResolution);
+                        float vd = 1.0f / (bitmap.VerticalResolution / source.VerticalResolution);
                         float hScale = 1.0f / (float)zoomFactor;
                         float vScale = 1.0f / (float)zoomFactor;
                         System.Drawing.RectangleF recSrc = new System.Drawing.RectangleF((hd * (float)rubberBandLeft) * hScale, (vd * (float)rubberBandTop) * vScale, (hd * (float)rubberBand.Width) * hScale, (vd * (float)rubberBand.Height) * vScale);
-                        using (System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(target))
+                        using (System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(bitmap))
                         {
                             gfx.DrawImage(source, recDest, recSrc, System.Drawing.GraphicsUnit.Pixel);
                         }
@@ -394,7 +394,7 @@ namespace ImageCropper
                         //cropped image to the last one, and makeing sure all others were deleted.
                         //Not ideal, so if anyone can fix it please this I would love to know. So let me know
                         tempFileName = tempFileName + fixedTempName + fixedTempIdx.ToString() + ".jpg";
-                        target.Save(tempFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        bitmap.Save(tempFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                         //rewire up context menu
                         cmDragCanvas.RemoveHandler(MenuItem.ClickEvent, cmDragCanvasRoutedEventHandler);
                         dragCanvasForImg.ContextMenu = null;
